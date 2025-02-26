@@ -1,9 +1,14 @@
 package com.jillesvangurp.jsondsl.readme
 
+import com.jillesvangurp.koiso.country.Country
+import com.jillesvangurp.koiso.country.dialCode
+import com.jillesvangurp.koiso.country.flag
+import com.jillesvangurp.koiso.country.resolveCountry
 import com.jillesvangurp.kotlin4example.SourceRepository
 import java.io.File
 import kotlin.test.Test
 
+// FIXME adjust
 const val githubLink = "https://github.com/formation-res/pg-docstore"
 
 val sourceGitRepository =
@@ -19,9 +24,9 @@ class ReadmeGenerationTest {
         File(".", "README.md")
             .writeText(
                 """
-            # JsonDsl
-
-        """.trimIndent().trimMargin() +
+                    # KoIso
+        
+                """.trimIndent().trimMargin() +
                     "\n\n" +
                     readmeMd.value
             )
@@ -33,21 +38,30 @@ val readmeMd =
         includeMdFile("intro.md")
 
         section("Example") {
-            +"""
-            The main feature of [kotlin4example](https://github.com/jillesvangurp/kotlin4example) is of course integrating code samples into your documentation.   
-        """
-                .trimIndent()
             subSection("Hello World") {
-                example { println("Hello World!") }
-                    .let {
+                example {
+                    // resolves by numeric, alpha2, alpha3 codes. Case insensitive.
+                    Country.resolveCountry("de")?.let { country ->
+                        println("${country.name} (${country.flag})")
+                        println("code: ${country.countryCode}")
+                        println("alpha2: ${country.alpha2}")
+                        println("alpha3: ${country.alpha3}")
+                        println("Phone numbers start with ${country.dialCode}")
+                    }
+                }.let {
                         +"""
-                   And you can actually grab the output and show it in another code block:
-                """
+                           Prints the following:
+                        """
                             .trimIndent()
 
                         mdCodeBlock(it.stdOut, type = "text")
                     }
             }
         }
+        +"""
+                This README uses [kotlin4example](https://github.com/jillesvangurp/kotlin4example) so the examples should always be in a working state.   
+            """
+            .trimIndent()
+
         includeMdFile("outro.md")
     }

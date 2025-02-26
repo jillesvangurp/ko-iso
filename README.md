@@ -1,33 +1,16 @@
-# JsonDsl
+# KoIso
 
-This is an **opinionated** template for creating kotlin multi platform library projects.
+Simple abstractions for working with country and language codes in kotlin.
 
-This works for me and might help you bootstrap your kotlin projects.
+Over the years I've dealt with multiple projects where I needed to handle country or language code information. There are libraries, csv files, json files, etc for many platforms but nothing really convenient and maintained for Kotlin multiplatform. 
 
-## Batteries included
+This solves that and I plan to keep it fresh. The relevant standards change once in a while. If you notice something is out of date, please create an issue or pull request and I'll fix it.
 
-My goal with this is to waste less time setting up new projects. Kotlin multiplatform can be a bit fiddly/challenging to get going with and there are a lot of things that I want to add to projects. This gets me there with minimal fiddling.
+## Features
 
-- Gradle wrapper with recent version of gradle & kts dialect
-- [Refresh versions plugin](https://splitties.github.io/refreshVersions/) - Great way to manage dependencies and stay on top of updates.
-- [kotlin4example](https://github.com/jillesvangurp/kotlin4example) integrated to generate the readme and any other documentation you are going to write. This is all driven via the tests.
-- Some dependencies for testing (junit, kotest-assertions, etc.) and test setup for junit
-- generic publish script that tags and publishes
-- Github action that builds your stuff generated using [github-workflows-kt](https://github.com/typesafegithub/github-workflows-kt). Setup to cache gradle and konan related files to speed up your builds.
-- LICENSE file (MIT)
-
-## Usage & project create/update checklist
-
-- [ ] Go to Github and push the "Use this template" button. This will create a new project based on this template
-- [ ] Change your project name by changing `rootProject.name = "my-new-kmp-project"` in settings.gradle.kts. 
-- [ ] Override the group name in gradle.properties
-- [ ] Review default maven repo for releases and other things in build.gradle.kts
-- [ ] Update & review the [License](License); change the copyright year and owner.
-- [ ] Run `./gradlew refreshVersions` and update versions.properties
-- [ ] Add your own dependencies
-- [ ] If needed, run `./gradlew kotlinUpgradeYarnLock`
-- [ ] If a newer version of gradle is available, run `./gradlew wrapper --gradle-version 8.11.1` (substitute latest version)
-- [ ] Start coding and write your own README.md and other documentation by modifying the `ReadmeGenerationTest`
+- Country class to represent countries. Has all the common ISO 3166 codes. Based on [this project](https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes). My intention is to copy upstream changes if/when they happen. Note. this data set is licensed under Creative Commons Attribution-ShareAlike 4.0 International License. 
+- Additional flag and phone dial prefix extension properties added via alpha2 code via this [gist](https://gist.github.com/devhammed/78cfbee0c36dfdaa4fce7e79c0d39208)
+- TODO: add language code support (when I get around to this, PRs welcome).
 
 ## Gradle
 
@@ -50,26 +33,37 @@ And then you can add the dependency:
 
 ```kotlin
     // check the latest release tag for the latest version
-    implementation("com.jillesvangurp:my-new-kmp-project:1.x.y")
+    implementation("com.jillesvangurp:ko-iso:1.x.y")
 ```
 
 ## Example
 
-The main feature of [kotlin4example](https://github.com/jillesvangurp/kotlin4example) is of course integrating code samples into your documentation.   
-
 ### Hello World
 
 ```kotlin
-println("Hello World!") 
+// resolves by numeric, alpha2, alpha3 codes. Case insensitive.
+Country.resolveCountry("de")?.let { country ->
+  println("${country.name} (${country.flag})")
+  println("code: ${country.countryCode}")
+  println("alpha2: ${country.alpha2}")
+  println("alpha3: ${country.alpha3}")
+  println("Phone numbers start with ${country.dialCode}")
+}
 ```
 
-And you can actually grab the output and show it in another code block:
+Prints the following:
 
 ```text
-Hello World!
+Germany (🇩🇪)
+code: 276
+alpha2: DE
+alpha3: DEU
+Phone numbers start with +49
 ```
+
+This README uses [kotlin4example](https://github.com/jillesvangurp/kotlin4example) so the examples should always be in a working state.   
 
 ## Multi platform
 
-This is a Kotlin multi platform library that should work on all kotlin platforms (jvm, js, ios, android, etc).
+This is a Kotlin multi platform library that should work on all kotlin platforms (jvm, js, wasm, native, ios, android, etc).
 

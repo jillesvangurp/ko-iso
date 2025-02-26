@@ -11,6 +11,10 @@ plugins {
     `maven-publish`
 }
 
+// FIXME adjust as needed
+val ghUser = "jillesvangurp"
+val ghProjectName = "kmp-template"
+
 repositories {
     mavenCentral()
     maven(url = "https://jitpack.io") {
@@ -18,6 +22,9 @@ repositories {
             includeGroup("com.github.jillesvangurp")
         }
     }
+    // FIXME adjust as needed
+    // remove this if you don't use any of our multiplatform libraries
+    maven("https://maven.tryformation.com/releases")
 }
 
 kotlin {
@@ -59,6 +66,8 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(kotlin("stdlib-common"))
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:_")
+                implementation("com.jillesvangurp:kotlinx-serialization-extensions:_")
             }
         }
 
@@ -78,6 +87,7 @@ kotlin {
         }
         jvmTest {
             dependencies {
+                implementation("ch.qos.logback:logback-classic:_")
                 implementation("com.github.jillesvangurp:kotlin4example:_")
                 implementation("org.junit.jupiter:junit-jupiter:_")
                 runtimeOnly("org.junit.platform:junit-platform-launcher")
@@ -120,7 +130,36 @@ tasks.named("iosSimulatorArm64Test") {
 
 
 publishing {
+    publications {
+        withType<MavenPublication> {
+            pom {
+                url.set("https://github.com/$ghUser/$ghProjectName")
+
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("https://github.com/$ghUser/$ghProjectName/blob/master/LICENSE")
+                    }
+                }
+
+                developers {
+                    developer {
+                        id.set("jillesvangurp")
+                        name.set("Jilles van Gurp")
+                        email.set("jilles@no-reply.github.com")
+                    }
+                }
+
+                scm {
+                    connection.set("scm:git:git://github.com/$ghUser/$ghProjectName.git")
+                    developerConnection.set("scm:git:ssh://github.com:$ghUser/$ghProjectName.git")
+                    url.set("https://github.com/$ghUser/$ghProjectName")
+                }
+            }
+        }
+    }
     repositories {
+        // setup publishing repo for https://maven.tryformation.com/releases
         maven {
             // GOOGLE_APPLICATION_CREDENTIALS env var must be set for this to work
             // public repository is at https://maven.tryformation.com/releases
