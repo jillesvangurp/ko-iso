@@ -1,5 +1,10 @@
 package com.jillesvangurp.koiso.country
 
+internal val commonAlpha2AliasCodes = mapOf(
+    "UK" to "GB",
+    "EL" to "GR"
+)
+
 /**
  * The list of countries was copied from https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes
  *

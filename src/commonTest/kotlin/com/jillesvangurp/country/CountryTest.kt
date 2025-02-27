@@ -28,4 +28,16 @@ class CountryTest {
         Country.findByAlpha3("dEu")?.alpha2 shouldBe "DE"
         Country.resolve("DeU")?.alpha2 shouldBe "DE"
     }
+
+    @Test
+    fun shouldFindUKAndGreece() {
+        Country.findByAlpha2("GB")?.alpha2 shouldBe "GB"
+        Country.findByAlpha2("GB")?.alpha2Alias shouldBe "UK"
+        Country.findByAlpha2("UK")?.alpha2 shouldBe "GB"
+        Country.findByAlpha2("UK")?.alpha2Alias shouldBe "UK"
+        Country.findByAlpha2("GR")?.alpha2 shouldBe "GR"
+        Country.findByAlpha2("GR")?.alpha2Alias shouldBe "EL"
+        Country.findByAlpha2("EL")?.alpha2 shouldBe "GR"
+        Country.findByAlpha2("EL")?.alpha2Alias shouldBe "EL"
+    }
 }

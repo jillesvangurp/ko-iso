@@ -50,6 +50,10 @@ data class Country(
     @SerialName("intermediate-region-code")
     val intermediateRegionCode: String? = null
 ) {
+    /**
+     * Returns unofficial alternative codes such as UK or EL for GB and GR respectively or null otherwise.
+     */
+    val alpha2Alias get() = if(alpha2 in commonAlpha2AliasCodes.values) commonAlpha2AliasCodes.entries.first { it.value == alpha2 }.key else null
     // original data uses "" instead of null as it should have
     object NullableIntSerializer : KSerializer<Int?> {
         override val descriptor: SerialDescriptor =
@@ -93,7 +97,7 @@ val Country.flag get() = Country.countryMeta[alpha2]?.flag
 val Country.dialCode get() = Country.countryMeta[alpha2]?.dialCode
 
 fun Country.Companion.findByAlpha2(alpha2: String): Country? {
-    return countryAlpha2Map[alpha2.uppercase()]
+    return countryAlpha2Map[alpha2.uppercase()] ?: commonAlpha2AliasCodes[alpha2]?.let { countryAlpha2Map[it] }
 }
 
 fun Country.Companion.findByAlpha3(alpha3: String): Country? {
