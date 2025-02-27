@@ -1,4 +1,4 @@
-# KoIso
+# ko-iso
 
 Simple abstractions for working with country and language codes in kotlin.
 

@@ -29,7 +29,7 @@ class ReadmeGenerationTest {
         File(".", "README.md")
             .writeText(
                     """
-                    # KoIso
+                    # ko-iso
         
                 """.trimIndent().trimMargin() +
                             "\n\n" +
