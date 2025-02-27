@@ -104,7 +104,7 @@ fun Country.Companion.findByCountryCode(code: String): Country? {
     return code.toIntOrNull()?.let { countryCodeMap[it] }
 }
 
-fun Country.Companion.resolveCountry(codeOrName: String): Country? {
+fun Country.Companion.resolve(codeOrName: String): Country? {
     return findByAlpha2(codeOrName)
         ?: findByAlpha3(codeOrName)
         ?: findByCountryCode(codeOrName)
