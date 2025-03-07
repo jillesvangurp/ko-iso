@@ -1,6 +1,5 @@
-package com.jillesvangurp.language
+package com.jillesvangurp.koiso.language
 
-import com.jillesvangurp.koiso.language.Language
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test

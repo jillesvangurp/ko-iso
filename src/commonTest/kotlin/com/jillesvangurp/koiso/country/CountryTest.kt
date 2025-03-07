@@ -1,11 +1,5 @@
-package com.jillesvangurp.country
+package com.jillesvangurp.koiso.country
 
-import com.jillesvangurp.koiso.country.Country
-import com.jillesvangurp.koiso.country.dialCode
-import com.jillesvangurp.koiso.country.findByAlpha2
-import com.jillesvangurp.koiso.country.findByAlpha3
-import com.jillesvangurp.koiso.country.flag
-import com.jillesvangurp.koiso.country.resolve
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import kotlin.test.Test
