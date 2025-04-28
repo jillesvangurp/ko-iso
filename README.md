@@ -14,6 +14,7 @@ Because this is multiplatform, I'm not working with resource files that are load
 - Additional flag and phone dial prefix extension properties added via alpha2 code via this [gist](https://gist.github.com/devhammed/78cfbee0c36dfdaa4fce7e79c0d39208)
 - Language class for resolving ISO 639-2 and 639-3 languages by their 2/3 letter code. Uses [this](https://github.com/freearhey/iso-639-3/blob/master/index.json) for ISO 639-2 and (this)[https://github.com/freearhey/iso-639-3] for some more obscure iso-639-3 languages.
 - Language search on name and codes. Also supports fuzzy search via a boolean fuzzy parameter. 
+- Continent code support via a simple enum. You can lookup the `continent` for a `Country` via an extension function. Continents have a list of regions they cover. Note. this has some interesting corner cases with e.g. Turkey and Russia having parts in Asia and Europe.
 
 I may add additional / related meta data and features if it can be done by not including huge data files. Ideas / PRs for this are welcome of course. Anything further (like exhaustive translations of language and country names by code) would best be hosted in a separate library. E.g. hooking up geonames based translations is tempting but out of scope for this library.
 
