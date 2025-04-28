@@ -1,5 +1,6 @@
 package com.jillesvangurp.koiso.country
 
+import com.jillesvangurp.koiso.continent.Continent
 import com.jillesvangurp.serializationext.DEFAULT_JSON
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
@@ -114,3 +115,18 @@ fun Country.Companion.resolve(codeOrName: String): Country? {
         ?: findByCountryCode(codeOrName)
         ?: countries.find { it.name.equals(codeOrName, ignoreCase = true) }
 }
+
+val Country.continent: Continent
+    get() = when (region) {
+        "Africa" -> Continent.AFRICA
+        "Americas" -> when (subRegion) {
+            "Northern America" -> Continent.NORTH_AMERICA
+            "South America" -> Continent.SOUTH_AMERICA
+            "Latin America and the Caribbean" -> Continent.SOUTH_AMERICA
+            else -> Continent.OTHER_TERRITORIES
+        }
+        "Asia" -> Continent.ASIA
+        "Europe" -> Continent.EUROPE
+        "Oceania" -> Continent.OCEANIA
+        else -> Continent.OTHER_TERRITORIES
+    }
