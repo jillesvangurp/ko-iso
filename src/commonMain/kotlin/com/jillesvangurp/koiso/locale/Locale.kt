@@ -4,7 +4,9 @@ import com.jillesvangurp.koiso.country.Country
 import com.jillesvangurp.koiso.language.Language
 
 /**
- * Represents a locale with language, optional country, and optional variant.
+ * Representation of a locale with a language, an optional country, and an optional variant.
+ * Language tags are formatted according to
+ * [BCP&nbsp;47](https://en.wikipedia.org/wiki/IETF_language_tag).
  */
 data class Locale(
     val language: Language,
@@ -12,7 +14,7 @@ data class Locale(
     val variant: String? = null
 ) {
     /**
-     * Returns a BCP-47 compliant language tag.
+     * Returns a [BCP&nbsp;47](https://en.wikipedia.org/wiki/IETF_language_tag) language tag.
      * The country is formatted using its upper-case country code if available.
      */
     fun toLanguageTag(): String {
@@ -31,11 +33,10 @@ data class Locale(
 
     companion object {
         /**
-         * Parses a BCP-47 tag (e.g. "en-US" or "en") into a Locale.
-         * The [resolveLanguage] and [resolveCountry] functions are used to map string codes
-         * to their corresponding Language and Country objects.
-         *
-         * Returns null if the language part of the tag cannot be resolved.
+         * Parse a [BCP&nbsp;47](https://en.wikipedia.org/wiki/IETF_language_tag) tag (e.g. `en-US`)
+         * into a [Locale]. The provided [resolveLanguage] and [resolveCountry] functions
+         * convert the textual codes to [Language] and [Country] instances. Returns `null`
+         * when the language part cannot be resolved.
          */
         fun parse(
             tag: String,

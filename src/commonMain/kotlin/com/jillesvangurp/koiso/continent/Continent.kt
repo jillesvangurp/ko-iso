@@ -77,11 +77,11 @@ enum class Continent(
         fun fromAlpha2(code: String): Continent? =
             entries.firstOrNull { it.alpha2.equals(code, ignoreCase = true) }
 
-        /** Lookup by UN M49 numeric code. */
+        /** Lookup by [UN&nbsp;M49](https://en.wikipedia.org/wiki/UN_M49) numeric code. */
         fun fromM49(code: Int): Continent? =
             entries.firstOrNull { it.m49 > 0 && it.m49 == code }
 
-        /** Flexible resolver accepting either code type or enum name. */
+        /** Flexible resolver accepting either alpha-2 code, UN M49 numeric code or enum name. */
         fun resolve(codeOrName: String): Continent? =
             fromAlpha2(codeOrName)
                 ?: codeOrName.toIntOrNull()?.let { fromM49(it) }

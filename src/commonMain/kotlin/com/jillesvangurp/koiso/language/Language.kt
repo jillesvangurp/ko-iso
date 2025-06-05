@@ -26,17 +26,25 @@ enum class LanguageSource {
     ISO_639_3,
 }
 
+/**
+ * Representation of a language from
+ * [ISO&nbsp;639‑2](https://en.wikipedia.org/wiki/ISO_639-2) or
+ * [ISO&nbsp;639‑3](https://en.wikipedia.org/wiki/ISO_639-3).
+ */
 data class Language(
     val code: String,
     val english: List<String>,
     val native: List<String>,
     val source: LanguageSource
 ) {
+    /** Convenience access to the first English name. */
     val name get() = english.first()
 
     override fun toString(): String = "$code: ${(english+native).distinct().joinToString("/")}"
 
+    /** `true` if the language is referenced by a 2-letter code. */
     val isAlpha2 get() = code.length == 2
+    /** `true` if the language is referenced by a 3-letter code. */
     val isAlpha3 get() = code.length == 3
 
     companion object {
@@ -63,11 +71,20 @@ data class Language(
             }
         }
 
+        /**
+         * Lookup a language by its 2- or 3-letter ISO code.
+         * Searches both the [ISO&nbsp;639‑2](https://en.wikipedia.org/wiki/ISO_639-2)
+         * and [ISO&nbsp;639‑3](https://en.wikipedia.org/wiki/ISO_639-3) datasets.
+         */
         fun resolve(code: String): Language? {
             val lowercaseCode = code.lowercase()
             return iso639_2_languages[lowercaseCode] ?: iso639_3_languages[lowercaseCode]
         }
 
+        /**
+         * Search languages by name or code. When [fuzzy] is `true`, a fuzzy
+         * match based on Levenshtein distance is used.
+         */
         fun search(query: String, fuzzy: Boolean = false): List<Language> {
             fun levenshteinDistance(s1: String, s2: String): Int {
                 val previous = IntArray(s2.length + 1) { it }
