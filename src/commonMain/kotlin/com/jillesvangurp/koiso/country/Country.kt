@@ -21,7 +21,12 @@ internal data class CountryMeta(
 )
 
 @Serializable
+/**
+ * Representation of a nation as defined in
+ * [ISO&nbsp;3166‑1](https://en.wikipedia.org/wiki/ISO_3166-1).
+ */
 data class Country(
+    /** The localized name of the country */
     val name: String,
     @SerialName("alpha-2")
     val alpha2: String,
@@ -52,7 +57,8 @@ data class Country(
     val intermediateRegionCode: String? = null
 ) {
     /**
-     * Returns unofficial alternative codes such as UK or EL for GB and GR respectively or null otherwise.
+     * Unofficial alternative 2-letter codes such as `UK` for Great Britain or
+     * `EL` for Greece. Returns `null` if no alias exists.
      */
     val alpha2Alias get() = if(alpha2 in commonAlpha2AliasCodes.values) commonAlpha2AliasCodes.entries.first { it.value == alpha2 }.key else null
     // original data uses "" instead of null as it should have
@@ -74,6 +80,7 @@ data class Country(
     }
 
     companion object {
+        /** All countries parsed from the bundled dataset. */
         val countries: List<Country> by lazy {
             DEFAULT_JSON.decodeFromString(ListSerializer(serializer()), allCountriesJson)
         }
@@ -94,21 +101,28 @@ data class Country(
     }
 }
 
+/** Emoji flag for this country if available. */
 val Country.flag get() = Country.countryMeta[alpha2]?.flag
+
+/** International dialing prefix in the form `+xx`. */
 val Country.dialCode get() = Country.countryMeta[alpha2]?.dialCode
 
+/** Lookup a country by its [ISO&nbsp;3166‑1 alpha‑2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) code. */
 fun Country.Companion.findByAlpha2(alpha2: String): Country? {
     return countryAlpha2Map[alpha2.uppercase()] ?: commonAlpha2AliasCodes[alpha2]?.let { countryAlpha2Map[it] }
 }
 
+/** Lookup a country by its [ISO&nbsp;3166‑1 alpha‑3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) code. */
 fun Country.Companion.findByAlpha3(alpha3: String): Country? {
     return countryAlpha3Map[alpha3.uppercase()]
 }
 
+/** Lookup a country by its numeric [ISO&nbsp;3166‑1](https://en.wikipedia.org/wiki/ISO_3166-1_numeric) code. */
 fun Country.Companion.findByCountryCode(code: String): Country? {
     return code.toIntOrNull()?.let { countryCodeMap[it] }
 }
 
+/** Resolve [codeOrName] using alpha‑2, alpha‑3, numeric codes or a case-insensitive country name. */
 fun Country.Companion.resolve(codeOrName: String): Country? {
     return findByAlpha2(codeOrName)
         ?: findByAlpha3(codeOrName)
@@ -116,6 +130,7 @@ fun Country.Companion.resolve(codeOrName: String): Country? {
         ?: countries.find { it.name.equals(codeOrName, ignoreCase = true) }
 }
 
+/** Returns the [Continent] this country belongs to. */
 val Country.continent: Continent
     get() = when (region) {
         "Africa" -> Continent.AFRICA
