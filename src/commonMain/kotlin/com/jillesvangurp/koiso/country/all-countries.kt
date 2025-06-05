@@ -1,8 +1,15 @@
 package com.jillesvangurp.koiso.country
 
 internal val commonAlpha2AliasCodes = mapOf(
-    "UK" to "GB",
-    "EL" to "GR"
+    "UK" to "GB", // United Kingdom legacy code
+    "EL" to "GR", // Greece legacy code
+    "SU" to "RU", // Soviet Union -> Russia
+    "TP" to "TL", // East Timor -> Timor-Leste
+    "YU" to "RS", // Yugoslavia -> Serbia
+    "FX" to "FR", // Metropolitan France -> France
+    "DD" to "DE", // East Germany -> Germany
+    "ZR" to "CD", // Zaire -> Congo, Democratic Republic of the
+    "BU" to "MM"  // Burma -> Myanmar
 )
 
 /**

@@ -34,4 +34,15 @@ class CountryTest {
         Country.findByAlpha2("EL")?.alpha2 shouldBe "GR"
         Country.findByAlpha2("EL")?.alpha2Alias shouldBe "EL"
     }
+
+    @Test
+    fun shouldResolveLegacyAlpha2Codes() {
+        Country.findByAlpha2("SU")?.alpha2 shouldBe "RU"
+        Country.findByAlpha2("TP")?.alpha2 shouldBe "TL"
+        Country.findByAlpha2("YU")?.alpha2 shouldBe "RS"
+        Country.findByAlpha2("FX")?.alpha2 shouldBe "FR"
+        Country.findByAlpha2("DD")?.alpha2 shouldBe "DE"
+        Country.findByAlpha2("ZR")?.alpha2 shouldBe "CD"
+        Country.findByAlpha2("BU")?.alpha2 shouldBe "MM"
+    }
 }
