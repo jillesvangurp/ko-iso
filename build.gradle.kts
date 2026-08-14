@@ -34,7 +34,7 @@ kotlin {
             jvmTarget = JvmTarget.JVM_11
         }
     }
-    js(IR) {
+    js {
         nodejs {
             testTask {
                 useMocha {
@@ -74,8 +74,6 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(kotlin("test"))
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
                 implementation("io.kotest:kotest-assertions-core:_")
             }
         }
@@ -114,8 +112,8 @@ kotlin {
 
         all {
             languageSettings {
-                languageVersion = "1.9"
-                apiVersion = "1.9"
+                languageVersion = "2.4"
+                apiVersion = "2.4"
             }
             languageSettings.optIn("kotlin.RequiresOptIn")
         }
@@ -219,6 +217,4 @@ tasks.withType<Test> {
         }
     })
 }
-
-
 
