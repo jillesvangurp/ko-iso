@@ -53,7 +53,8 @@ jobs:
         path: '~/.konan/**/*'
         key: 'konan-${{ runner.os }}-${{ hashFiles(''**/*.gradle.kts'', ''gradle.properties'', ''versions.properties'') }}'
     - id: 'step-3'
-      name: 'build with gradle'
+      name: 'set up Gradle'
       uses: 'gradle/actions/setup-gradle@v4'
-      with:
-        arguments: 'check'
+    - id: 'step-4'
+      name: 'build with Gradle'
+      run: './gradlew check'

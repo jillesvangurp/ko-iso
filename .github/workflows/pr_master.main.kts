@@ -74,13 +74,17 @@ workflow(
             ),
         )
         uses(
-            name = "build with gradle",
+            name = "set up Gradle",
             action = CustomAction(
                 "gradle",
                 "actions/setup-gradle",
                 "v4",
-                inputs = mapOf("arguments" to "check"),
+                inputs = emptyMap(),
             ),
+        )
+        run(
+            name = "build with Gradle",
+            command = "./gradlew check",
         )
     }
 }
