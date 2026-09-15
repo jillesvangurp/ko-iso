@@ -11,9 +11,8 @@ plugins {
     `maven-publish`
 }
 
-// FIXME adjust as needed
 val ghUser = "jillesvangurp"
-val ghProjectName = "kmp-template"
+val ghProjectName = "ko-iso"
 
 repositories {
     mavenCentral()
@@ -136,7 +135,7 @@ publishing {
                 licenses {
                     license {
                         name.set("MIT License")
-                        url.set("https://github.com/$ghUser/$ghProjectName/blob/master/LICENSE")
+                        url.set("https://github.com/$ghUser/$ghProjectName/blob/main/LICENSE.md")
                     }
                 }
 
@@ -217,4 +216,3 @@ tasks.withType<Test> {
         }
     })
 }
-
